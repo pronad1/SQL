@@ -41,17 +41,17 @@ GROUP BY s.ID, s.name
 HAVING COUNT(DISTINCT t.course_id) >= 3;
 
 
---5. Find the sections that had maximum enrollment in Fall 2010.
--- SELECT course_id,sec_id
--- from takes
--- WHERE semester='Fall' and year=2010
--- GROUP by course_id, sec_id
--- HAVING COUNT(ID)=(
---     SELECT MAX(cnt) 
---     FROM (SELECT COUNT(ID) as cnt
---          FROM takes WHERE semester='Fall' and year=2010 GROUP by course_id,sec_id) as subject
---     );
--- Or
+5. Find the sections that had maximum enrollment in Fall 2010.
+SELECT course_id,sec_id
+from takes
+WHERE semester='Fall' and year=2010
+GROUP by course_id, sec_id
+HAVING COUNT(ID)=( 
+    SELECT MAX(cnt) 
+    FROM (SELECT COUNT(ID) as cnt
+         FROM takes WHERE semester='Fall' and year=2010 GROUP by course_id,sec_id) as subject
+    );
+Or
 WITH section_enrollments AS (
     SELECT course_id, sec_id, COUNT(ID) AS enrollment_count
     FROM takes
@@ -87,11 +87,11 @@ WITH StudentAGrades AS (
     WHERE t.grade IN ('A', 'A-', 'A+')
     GROUP BY s.ID, s.name
 )
--- SELECT RANK() OVER (ORDER BY a_count DESC, name ASC) AS rank, name
--- FROM StudentAGrades
--- ORDER BY rank
--- LIMIT 10;
--- Half part
+SELECT RANK() OVER (ORDER BY a_count DESC, name ASC) AS rank, name
+FROM StudentAGrades
+ORDER BY rank
+LIMIT 10;
+Half part
 SELECT s.name, COUNT(*) AS rank
 FROM student s
 JOIN takes t ON s.ID = t.ID
@@ -149,7 +149,7 @@ select dept_name from department where building like '%Taylor%';
 --10.Find the names of instructors with salary amounts between $90,000 and $100,000
 SELECT name,salary from instructor where salary between 90000 AND 100000;
 
---11.Find the instructor names and the courses they taught for all instructors in the Biology department who have taught some course
+--11. Find the instructor names and the courses they taught for all instructors in the Biology department who have taught some course
 SELECT i.name, c.title 
 FROM instructor i
 JOIN teaches t ON i.ID = t.ID
@@ -205,3 +205,107 @@ NATURAL JOIN student;
 --20. Find the number of instructors in each department who teach a course in the Spring-2010 semester.
 SELECT i.dept_name, count(distinct t.ID) from instructor i join teaches t on i.ID=t.ID where t.semester='Spring' and t.year=2010 GROUP BY i.dept_name;
 
+--21.. List out the departments where the average salary of the instructors is more than $42,000.
+SELECT dept_name from instructor group by dept_name having avg(salary)>42000;
+
+--22. For each course section offered in 2009, find the average total credits (tot cred) of all students enrolled in the section, if the section had at least 2 students.
+SELECT s.course_id, s.sec_id, AVG(st.tot_cred) AS avg_tot_cred
+FROM section s
+JOIN takes t ON s.course_id = t.course_id AND s.sec_id = t.sec_id
+JOIN student st ON t.ID = st.ID
+WHERE s.year = 2009
+GROUP BY s.course_id, s.sec_id
+HAVING COUNT(t.ID) >= 2;
+
+--23. Find all the courses taught in both the Fall-2009 and Spring-2010 semesters.
+SELECT DISTINCT s1.course_id
+FROM section s1
+JOIN section s2 ON s1.course_id = s2.course_id
+WHERE s1.semester = 'Fall' AND s1.year = 2009
+AND s2.semester = 'Spring' AND s2.year = 2010;
+
+--24. Find all the courses taught in the Fall-2009 semester but not in the Spring-2010 semester.
+SELECT course_id
+FROM section
+WHERE semester = 'Fall' AND year = 2009
+AND course_id NOT IN (
+    SELECT course_id
+    FROM section
+    WHERE semester = 'Spring' AND year = 2010
+);
+
+--25. Select the names of instructors whose names are neither "Mozart" nor "Einstein".
+SELECT name
+FROM instructor
+WHERE name NOT IN ('Mozart', 'Einstein');
+
+--26. Find the total number of (distinct) students who have taken course sections taught by the instructor with ID 110011.
+SELECT COUNT(DISTINCT t.ID) AS student_count
+FROM takes t
+JOIN teaches te ON t.course_id = te.course_id AND t.sec_id = te.sec_id
+WHERE te.ID = 22591;
+
+--27.Find the ID and names of all instructors whose salary is greater than at least one instructor in the History department.
+select ID, name from instructor where salary > any (select salary from instructor where dept_name='History');
+
+--28. Find the names of all instructors that have a salary value greater than that of each instructor in theBiology department
+select name from instructor where salary > all (select salary from instructor where dept_name='Biology');
+select name from instructor where salary > (select max(salary) from instructor where dept_name='Biology');
+--29. Find the departments that have the highest average salary
+SELECT dept_name
+FROM instructor
+GROUP BY dept_name
+HAVING AVG(salary) = (
+    SELECT MAX(avg_salary)
+    FROM (
+        SELECT dept_name, AVG(salary) AS avg_salary
+        FROM instructor
+        GROUP BY dept_name
+    ) subquery
+);
+
+--30. Find all courses taught in both the Fall 2009 semester and in the Spring-2010 semester.
+select course_id from section where (semester='Fall' and year=2009) and course_id in (select course_id from section where semester='Spring' and year=2010);
+
+--31. Find all students who have taken all the courses offered in the Biology department
+SELECT s.ID, s.name
+FROM student s
+WHERE NOT EXISTS (
+    SELECT c.course_id
+    FROM course c
+    WHERE c.dept_name = 'Biology'
+    AND NOT EXISTS (
+        SELECT t.course_id
+        FROM takes t
+        WHERE t.ID = s.ID
+        AND t.course_id = c.course_id
+    )
+);
+--or
+SELECT DISTINCT t.ID
+FROM takes t
+JOIN course c ON t.course_id = c.course_id
+WHERE c.dept_name = 'Biology'
+GROUP BY t.ID
+HAVING COUNT(DISTINCT t.course_id) = 
+    (SELECT COUNT(*) FROM course WHERE dept_name = 'Biology');
+
+--32. Find all courses that were offered at most once in 2009
+SELECT course_id
+FROM section
+WHERE year = 2009
+GROUP BY course_id
+HAVING COUNT(*) <= 1;
+
+--33. Find all courses that were offered at least twice in 2009.
+select course_id from section where year=2009 group by course_id having count(*)>=2;
+
+--34. Find the average instructors' salaries of those departments where the average salary is greater than$42,000.
+select dept_name, avg(salary) from instructor group by dept_name having avg(salary)>42000;
+
+
+--35. Find the maximum across all departments of the total salary at each department.
+select dept_name, max(salary) from instructor group by dept_name;
+
+--36. List all departments along with the number of instructors in each department.
+select dept_name, count(ID) from instructor group by dept_name;
