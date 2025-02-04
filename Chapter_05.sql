@@ -1,3 +1,7 @@
+--Show tables
+SELECT table_name FROM user_tables;
+
+
 select * from location;
 show user;
 SELECT * from newspaper;
@@ -11,7 +15,7 @@ select Feature, Section, Page from NEWSPAPER
  where Section = 'F'
  order by Page desc, Feature;
 
-// Single Value Test 
+-- Single Value Test 
 
 
   select Feature, Section, Page
@@ -40,7 +44,7 @@ select Feature, Section, Page from NEWSPAPER
  where Page <> 1;
 
 
-// LIKE
+-- LIKE
 
  select Feature, Section, Page from NEWSPAPER
  where Feature LIKE 'Mo%';
@@ -55,7 +59,7 @@ select Feature, Section, Page from NEWSPAPER
  where Feature LIKE '%i%i%';
 
 
-//NULL and NOT NULL 
+--NULL and NOT NULL 
 
 
  select City, SampleDate, Precipitation
@@ -93,7 +97,7 @@ select Feature, Section, Page from NEWSPAPER
  where Section = 'F'
  and Page BETWEEN 7 AND 10;
 
- // Combining Logic
+-- Combining Logic
 
  select Feature, Section, Page
  from NEWSPAPER
@@ -106,7 +110,7 @@ select Feature, Section, Page from NEWSPAPER
  where Page > 2
  and ( Section = 'A' or Section = 'B' );
 
- // Another Use for where : Subqueries
+ -- Another Use for where : Subqueries
 
  select Section from NEWSPAPER
  where Feature = 'Doctor Is In';
@@ -119,7 +123,7 @@ select Feature, Section, Page from NEWSPAPER
  where Section < (select Section from NEWSPAPER
  where Feature = 'Doctor Is In');
 
- // Lists of Values from a Subquery
+-- Lists of Values from a Subquery
 
   select City, Country from LOCATION;
 
@@ -134,7 +138,7 @@ select Feature, Section, Page from NEWSPAPER
  where Condition = 'CLOUDY');
 
 
- // combining table:
+-- combining table:
 
  select City, Condition, Temperature from WEATHER;
 
@@ -147,7 +151,7 @@ select Feature, Section, Page from NEWSPAPER
  where WEATHER.City = LOCATION.City;
 
 
- // Insert two table into one
+-- Insert two table into one
 
  create table com_tab as(
     select WEATHER.city,condition,Temperature,Latitude,NorthSouth,Longitude,EastWest from WEATHER,location where WEATHER.city=location.CITY
@@ -157,7 +161,7 @@ select * from com_tab;
 
  select * from combine;
 
- // Craeating a view
+-- Craeating a view
 
  create view invasion as select weather.city, condition, temperature, Latitude,NorthSouth,Longitude,EastWest from weather, location where weather.city=location.city;
 
@@ -172,7 +176,7 @@ select * from com_tab;
  from INVASION
  where Country = 'GREECE';
 
-// ERROR at line 4: ORA-00904: "COUNTRY": invalid identifier...  it was not in the select clause when the view was created
+-- ERROR at line 4: ORA-00904: "COUNTRY": invalid identifier...  it was not in the select clause when the view was created
 
 create or replace view INVASION as
  select WEATHER.City, Condition, Temperature, Latitude,
@@ -186,7 +190,7 @@ create or replace view INVASION as
  from INVASION;
 
 
- //   Expanding the View
+--   Expanding the View
 
   create or replace view PERU_LOCATIONS as
  select * from LOCATION
