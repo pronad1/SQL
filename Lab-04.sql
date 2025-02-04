@@ -309,3 +309,5 @@ select dept_name, max(salary) from instructor group by dept_name;
 
 --36. List all departments along with the number of instructors in each department.
 select dept_name, count(ID) from instructor group by dept_name;
+
+
