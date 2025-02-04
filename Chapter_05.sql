@@ -52,6 +52,9 @@ select Feature, Section, Page from NEWSPAPER
  select Feature, Section, Page from NEWSPAPER
  where Feature LIKE '__i%';
 
+ select Feature, Section, Page from NEWSPAPER
+ where Feature LIKE '__i%' order by Feature;
+
   select Feature, Section, Page from NEWSPAPER
  where Feature LIKE '%o%o%';
 
