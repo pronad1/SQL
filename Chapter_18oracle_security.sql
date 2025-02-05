@@ -325,7 +325,7 @@ SQL> insert into NEWSPAPER values ('Television', 'B', 7);
 
 1 row created.
 
-SQL> select * from newspaper;
+select * from newspaper;
 
 FEATURE                   S       PAGE
 ------------------------- - ----------
@@ -384,7 +384,7 @@ SQL> grant insert on newspaper to tab;
 
 Grant succeeded.
 
-SQL> connect tab/tab;
+connect tab/tab;
 Connected.
 SQL> show user;
 USER is "TAB"
@@ -392,7 +392,7 @@ USER is "TAB"
 
 1 row created.
 
-SQL> select * from bob.newspaper;
+select * from bob.newspaper;
 
 FEATURE                   S       PAGE
 ------------------------- - ----------
