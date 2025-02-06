@@ -38,6 +38,7 @@ create or replace trigger BOOKSHELF_BEF_UPD_ROW
  end;
  /
 
+commit;
 update BOOKSHELF set RATING =10;
 
 SELECT * FROM BOOKSHELF_AUDIT;
