@@ -99,6 +99,7 @@ FROM (
 WHERE rnk <= 10
 ORDER BY rnk;
 
+-- or
 WITH StudentAGrades AS (
     SELECT s.name, COUNT(*) AS a_count
     FROM student s
