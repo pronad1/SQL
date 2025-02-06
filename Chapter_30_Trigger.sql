@@ -87,22 +87,6 @@ Insert into BOOKSHELF values
 ('HARRY POTTER AND THE GOBLET OF FIRE','SCHOLASTIC','CHILDRENFIC','4');
 Insert into BOOKSHELF values
 ('SHOELESS JOE','MARINER','ADULTFIC','3');
-Insert into BOOKSHELF values
-('BOX SOCIALS','BALLANTINE','ADULTFIC','3');
-Insert into BOOKSHELF values
-('TRUMPET OF THE SWAN','HARPERCOLLINS','CHILDRENFIC','3');
-Insert into BOOKSHELF values
-('CHARLOTTE''S WEB','HARPERTROPHY','CHILDRENFIC','3');
-Insert into BOOKSHELF values
-('WEST WITH THE NIGHT','NORTH POINT PRESS','ADULTNF','3');
-Insert into BOOKSHELF values
-('THE GOOD BOOK','BARD','ADULTREF','4');
-Insert into BOOKSHELF values
-('PREACHING TO HEAD AND HEART','ABINGDON PRESS','ADULTREF','4');
-Insert into BOOKSHELF values
-('THE COST OF DISCIPLESHIP','TOUCHSTONE','ADULTREF','3');
-Insert into BOOKSHELF values
-('THE SHIPPING NEWS','SIMON SCHUSTER','ADULTFIC','4');
 
 commit;
 
@@ -149,4 +133,66 @@ VALUES
 end if;
 end;
 /
+
+
+
+-- Statement level trigger
+
+CREATE table job(
+    position varchar2(15),
+    salary numeric(10,2),
+    lev NUMBER,
+    location varchar(15)
+);
+
+CREATE table job_record(
+    position varchar2(15),
+    salary numeric(10,2),
+    location varchar(15),
+    old_lev NUMBER,
+    new_lev NUMBER,
+    record_date DATE
+);
+
+INSERT INTO job VALUES('Manager', 50000, 1, 'New York');
+select * from job;
+
+create or replace trigger job_bef_upd_row
+before update on job
+for each ROW
+WHEN(new.lev>old.lev)
+BEGIN
+    insert into job_record
+    (position, salary, location, old_lev, new_lev,record_date)
+    VALUES
+    (:old.position, :old.salary, :old.location, :old.lev, :new.lev, SYSDATE);
+    END;
+    /
+
+select * from job_record;
+
+update job set lev = 2 where position = 'Manager';
+
+select * from job_record;
+
+CREATE table job_log(
+    action varchar2(15),
+    update_date DATE
+);
+
+CREATE or replace trigger job_log_rec
+BEFORE UPDATE on job
+BEGIN
+    insert into job_log
+    (action, update_date)
+    VALUES
+    ('Update executed on Job', SYSDATE);
+END;
+/
+
+INSERT into job values ('Soft.Engg.',50000, 1,'Canada');
+
+select * from job_record;
+
+select * from job_log;
 
