@@ -109,3 +109,25 @@ commit;
 update BOOKSHELF set RATING =15;
 
 select * from bookshelf;
+
+-- create new trigger to audit all updates to the BOOKSHELF table
+create or replace trigger BOOKSHELF_BEF_UPD_ROW
+ before update on BOOKSHELF
+ for each row
+ when (new.Rating > old.Rating)
+ begin
+ insert into BOOKSHELF_AUDIT
+ (Title, Publisher, CategoryName,
+ Old_Rating, New_Rating, Audit_Date)
+ values
+ (:old.Title, :old.Publisher, :old.CategoryName,
+ :old.Rating, :new.Rating, Sysdate);
+ end;
+ /
+
+
+ SELECT * FROM BOOKSHELF_AUDIT;
+
+ update BOOKSHELF set RATING =10 where title = 'TO KILL A MOCKINGBIRD';
+
+ 
