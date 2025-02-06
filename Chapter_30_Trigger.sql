@@ -130,4 +130,23 @@ create or replace trigger BOOKSHELF_BEF_UPD_ROW
 
  update BOOKSHELF set RATING =10 where title = 'TO KILL A MOCKINGBIRD';
 
- 
+drop trigger BOOKSHELF_BEF_UPD_ROW;
+
+-- create trigger for insert and update
+create or REPLACE trigger BOOKSHELF_BEF_UPD_INS_ROW 
+before INSERT or update of rating on BOOKSHELF
+for each row BEGIN
+if INSERTING then 
+insert into BOOKSHELF_AUDIT
+(Title, Publisher,CategoryName,New_Rating,Audit_Date)
+VALUES
+(:new.Title, :new.Publisher, :new.CategoryName, :new.Rating, SYSDATE);
+else 
+insert into BOOKSHELF_AUDIT
+(Title,Publisher,CategoryName,Old_Rating,New_Rating,Audit_Date)
+VALUES
+(:Old.Title, :old.Publisher,:old.CategoryName,:old.Rating,:new.Rating,SYSDATE);
+end if;
+end;
+/
+
