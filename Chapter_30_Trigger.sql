@@ -106,4 +106,6 @@ Insert into BOOKSHELF values
 
 commit;
 
+update BOOKSHELF set RATING =15;
+
 select * from bookshelf;
