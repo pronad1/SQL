@@ -42,3 +42,4 @@ commit;
 update BOOKSHELF set RATING =10;
 
 SELECT * FROM BOOKSHELF_AUDIT;
+
