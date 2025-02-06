@@ -82,6 +82,23 @@ ORDER BY s.name;
 
 --7. Find the rank and name of the 10 students who earned the most A grades (A-, A, A+). Use
 --alphabetical order by name to break ties. Note: the browser SQLite does not support window functions
+
+WITH StudentAGrades AS (
+    SELECT s.name, COUNT(*) AS a_count
+    FROM student s
+    JOIN takes t ON s.ID = t.ID
+    WHERE t.grade IN ('A', 'A-', 'A+')
+    GROUP BY s.ID, s.name
+)
+SELECT name, a_count
+FROM (
+    SELECT name, a_count, @curRank := @curRank + 1 AS rnk
+    FROM StudentAGrades, (SELECT @curRank := 0) r
+    ORDER BY a_count DESC, name ASC
+) ranked
+WHERE rnk <= 10
+ORDER BY rnk;
+
 WITH StudentAGrades AS (
     SELECT s.name, COUNT(*) AS a_count
     FROM student s
