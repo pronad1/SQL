@@ -39,6 +39,7 @@ JOIN course c ON t.course_id = c.course_id
 WHERE s.dept_name = 'Biology' 
   AND c.dept_name = 'Accounting'
 GROUP BY s.ID, s.name
+GROUP BY s.ID, s.name
 HAVING COUNT(DISTINCT t.course_id) >= 3;
 
 
