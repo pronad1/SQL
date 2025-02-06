@@ -176,7 +176,7 @@ update job set lev = 2 where position = 'Manager';
 select * from job_record;
 
 CREATE table job_log(
-    action varchar2(15),
+    action varchar2(30),
     update_date DATE
 );
 
@@ -196,3 +196,6 @@ select * from job_record;
 
 select * from job_log;
 
+UPDATE job set lev = 2 where position = 'Soft.Engg.';
+
+commit;
