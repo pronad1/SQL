@@ -262,6 +262,7 @@ create profile combine limit
 
 
 -- Allow access to other user to create table
+
 SQL> create user tab identified by tab;
 
 User created.
@@ -421,7 +422,7 @@ show user;
 
 
 -- Project Password Management
-
+--a. Create a profile
 create profile Password_Management limit
     PASSWORD_LIFE_TIME 10
     PASSWORD_GRACE_TIME 8
@@ -528,3 +529,232 @@ ORA-28008: invalid old password
 
 
 Password unchanged
+
+
+-- b. mutually exclusive
+-- PASSWORD_REUSE_MAX,PASSWORD_REUSE_TIME    //PASSWORD_REUSE_TIME is 30 and PASSWORD_REUSE_MAX is 10, the user can reuse a password after 30 days if it is not one of the last 10 passwords used.
+alter profile LIMITED_PROFILE limit
+PASSWORD_REUSE_MAX 3
+PASSWORD_REUSE_TIME UNLIMITED;
+
+create user password identified by pass profile LIMITED_PROFILE;
+
+User created.
+SQL> show user;
+USER is "SYSTEM"
+SQL> grant CREATE SESSION to password;
+
+Grant succeeded.
+SQL> connect password/pass;
+Connected.
+SQL> password
+Changing password for PASSWORD
+Old password:
+New password:
+Retype new password:
+Password changed
+SQL> password
+Changing password for PASSWORD
+Old password:
+New password:
+Retype new password:
+Password changed
+SQL> password
+Changing password for PASSWORD
+Old password:
+New password:
+Retype new password:
+Password changed
+SQL> password
+Changing password for PASSWORD
+Old password:
+New password:
+Retype new password:
+Password changed
+SQL> password
+Changing password for PASSWORD
+Old password:
+New password:
+Retype new password:
+ERROR:
+ORA-28007: the password cannot be reused
+
+
+Password unchanged
+SQL> password
+Changing password for PASSWORD
+Old password:
+New password:
+Retype new password:
+Password changed
+-- In this case we cann't use mutually exclusive mean if we set a value for one of them, the other must not be set to UNLIMITED.
+
+
+--  Project privilege Management
+
+create user Person2 identified by 1234;
+
+SQL> grant create session to Person2;
+
+Grant succeeded.
+
+connect Person2/1234;
+Connected.
+
+SQL> create user Person1 identified by pp;
+
+User created.
+
+SQL> grant create session to Person1;
+
+Grant succeeded.
+
+connect Person1/5678;
+Connected.
+
+ grant create user, grant any privilege to Person2;
+
+Grant succeeded.
+
+ connect Person2/1234;
+Connected.
+SQL> grant create session, create table, create view, create synonym to Person1;
+
+Grant succeeded.
+
+ alter user Person1
+  2    default tablespace users
+  3    quota 5m on users;
+
+User altered.
+
+
+SQL> show user
+USER is "SYSTEM"
+SQL> connect Person1/5678;
+Connected.
+SQL> show user
+USER is "PERSON1"
+SQL> create table newspaper(
+  2   Feature varchar(25) not null,
+  3  Section char(1),
+  4  page number
+  5  );
+
+Table created.
+
+SQL> insert into NEWSPAPER values ('National News', 'A', 1);
+
+1 row created.
+
+SQL> insert into NEWSPAPER values ('Sports', 'D', 1);
+
+1 row created.
+
+SQL> insert into NEWSPAPER values ('Editorials', 'A', 12);
+
+1 row created.
+
+SQL> insert into NEWSPAPER values ('Business', 'E', 1);
+
+1 row created.
+
+SQL> insert into NEWSPAPER values ('Weather', 'C', 2);
+
+1 row created.
+
+SQL> insert into NEWSPAPER values ('Television', 'B', 7);
+
+1 row created.
+
+SQL> insert into NEWSPAPER values ('Births', 'F', 7);
+
+1 row created.
+
+SQL> insert into NEWSPAPER values ('Classified', 'F', 8);
+
+1 row created.
+
+SQL> insert into NEWSPAPER values ('Modern Life', 'B', 1);
+
+1 row created.
+
+SQL> insert into NEWSPAPER values ('Comics', 'C', 4);
+
+1 row created.
+
+SQL> insert into NEWSPAPER values ('Movies', 'B', 4);
+
+1 row created.
+
+SQL> insert into NEWSPAPER values ('Bridge', 'B', 2);
+
+1 row created.
+
+SQL> insert into NEWSPAPER values ('Obituaries', 'F', 6);
+
+1 row created.
+
+SQL> insert into NEWSPAPER values ('Doctor Is In', 'F', 6);
+
+1 row created.
+
+SQL> select * from newspaper
+  2  ;
+
+FEATURE                   S       PAGE
+------------------------- - ----------
+National News             A          1
+Sports                    D          1
+Editorials                A         12
+Business                  E          1
+Weather                   C          2
+Television                B          7
+Births                    F          7
+Classified                F          8
+Modern Life               B          1
+Comics                    C          4
+Movies                    B          4
+
+FEATURE                   S       PAGE
+------------------------- - ----------
+Bridge                    B          2
+Obituaries                F          6
+Doctor Is In              F          6
+
+14 rows selected.
+
+SQL> grant select on newspaper to Person2;
+
+Grant succeeded.
+
+SQL> connect Person2/1234;
+Connected.
+SQL> select * from Person1.newspaper;
+
+FEATURE                   S       PAGE
+------------------------- - ----------
+National News             A          1
+Sports                    D          1
+Editorials                A         12
+Business                  E          1
+Weather                   C          2
+Television                B          7
+Births                    F          7
+Classified                F          8
+Modern Life               B          1
+Comics                    C          4
+Movies                    B          4
+
+FEATURE                   S       PAGE
+------------------------- - ----------
+Bridge                    B          2
+Obituaries                F          6
+Doctor Is In              F          6
+
+14 rows selected.
+
+SQL>
+
+
+-- Project Trigger Management
