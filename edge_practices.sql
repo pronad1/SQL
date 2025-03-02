@@ -88,3 +88,6 @@ CONNECT b/b;
 INSERT into a.newspaper values('Nation News','A',9);
 
 SELECT * from a.newspaper;
+
+
+-- Project Password Management

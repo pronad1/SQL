@@ -44,8 +44,7 @@ WHERE PROFILE = 'LIMITED_PROFILE';
  CONNECT prosen/prosen;
 
 -- Password Change
- show USER;
- USER is "PROSEN"
+ show USER
 
   password
 Changing password for PROSEN
