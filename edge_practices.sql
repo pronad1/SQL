@@ -61,3 +61,30 @@ grant create session,create TABLE,create view,create SYNONYM to a;
 alter user A
 DEFAULT tablespace users
 QUOTA 5m on users;
+
+CONNECT a/a;
+show user;
+
+CREATE table newspaper(
+    feature VARCHAR2(20) not null,
+    section char(1),
+    page NUMBER
+);
+
+select * from newspaper;
+
+grant select on newspaper to b;
+
+connect b/b;
+
+select * from a.newspaper;
+
+connect a/a;
+
+grant insert on newspaper to b;
+
+CONNECT b/b;
+
+INSERT into a.newspaper values('Nation News','A',9);
+
+SELECT * from a.newspaper;
