@@ -52,3 +52,12 @@ update EDGE set RATING = 20 where TITLE='SHOWLESS';
 
 
 -- Project Privilege Management
+show user;
+create user b identified by b;
+grant create session to b;
+create user a identified by a;
+grant create session,create TABLE,create view,create SYNONYM to a;
+
+alter user A
+DEFAULT tablespace users
+QUOTA 5m on users;
