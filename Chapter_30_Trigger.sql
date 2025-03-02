@@ -199,3 +199,18 @@ select * from job_log;
 UPDATE job set lev = 2 where position = 'Soft.Engg.';
 
 commit;
+
+
+-- EDGE Practices
+
+create table edge(
+    Title varchar2(100) primary key,
+    Publisher varchar2(20),
+    Categoryname varchar2(20),
+    rating NUMERIC
+);
+
+insert into edge values
+('TO KILL A MOCKINGBIRD','HARPERCOLLINS','ADULTFIC','5');
+
+select * from edge;
