@@ -1,5 +1,5 @@
 --Show tables
-SELECT table_name FROM user_tables;
+SELECT distinct table_name FROM user_tables;
 
 
 select * from location;
