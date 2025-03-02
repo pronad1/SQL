@@ -1,7 +1,6 @@
 --3.1
 --a.Find the titles of courses in the Comp. Sci. department that have 3 credits. 
 SELECT title 
-
 SELECT sec_id, course_id, COUNT(ID) AS enrollment 
 FROM takes 
 WHERE semester = 'Fall' AND year = 2017 
