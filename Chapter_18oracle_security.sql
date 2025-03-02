@@ -260,7 +260,7 @@ create profile combine limit
 
 
 
-
+-- Project privilege Management
 -- Allow access to other user to create table
 
 SQL> create user tab identified by tab;
@@ -757,4 +757,3 @@ Doctor Is In              F          6
 SQL>
 
 
--- Project Trigger Management
