@@ -112,7 +112,7 @@ create or replace trigger BOOKSHELF_BEF_UPD_ROW
 
  SELECT * FROM BOOKSHELF_AUDIT;
 
- update BOOKSHELF set RATING =10 where title = 'TO KILL A MOCKINGBIRD';
+ update BOOKSHELF set RATING =20 where title = 'TO KILL A MOCKINGBIRD';
 
 drop trigger BOOKSHELF_BEF_UPD_ROW;
 
@@ -214,3 +214,15 @@ insert into edge values
 ('TO KILL A MOCKINGBIRD','HARPERCOLLINS','ADULTFIC','5');
 
 select * from edge;
+
+CREATE table edge_audit(
+    Title varchar2(100) primary key,
+    Publisher VARCHAR2(20),
+    CategoryName varchar2(20),
+    Old_Rating NUMERIC,
+    New_Rating NUMERIC,
+    Audit_Date DATE
+);
+
+SELECT * from EDGE_AUDIT;
+
