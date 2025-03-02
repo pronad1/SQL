@@ -52,5 +52,3 @@ update EDGE set RATING = 20 where TITLE='SHOWLESS';
 
 
 -- Project Privilege Management
-
-show USER;
