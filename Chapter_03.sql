@@ -148,3 +148,21 @@ CREATE TABLE EmployeeSalary (
 
 -- insert value into the table
 
+-- sql
+
+SELECT employeeID, employeeName, department,
+    SUM(CASE WHEN month = 'January' THEN salary ELSE 0 END) AS January,
+    SUM(CASE WHEN month = 'February' THEN salary ELSE 0 END) AS February,
+    SUM(CASE WHEN month = 'March' THEN salary ELSE 0 END) AS March,
+    SUM(CASE WHEN month = 'April' THEN salary ELSE 0 END) AS April,
+    SUM(CASE WHEN month = 'May' THEN salary ELSE 0 END) AS May,
+    SUM(CASE WHEN month = 'June' THEN salary ELSE 0 END) AS June,
+    SUM(CASE WHEN month = 'July' THEN salary ELSE 0 END) AS July,
+    SUM(CASE WHEN month = 'August' THEN salary ELSE 0 END) AS August,
+    SUM(CASE WHEN month = 'September' THEN salary ELSE 0 END) AS September,
+    SUM(CASE WHEN month = 'October' THEN salary ELSE 0 END) AS October,
+    SUM(CASE WHEN month = 'November' THEN salary ELSE 0 END) AS November,
+    SUM(CASE WHEN month = 'December' THEN salary ELSE 0 END) AS December
+FROM EmployeeSalary
+GROUP BY employeeID, employeeName, department
+ORDER BY employeeID;
