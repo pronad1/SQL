@@ -135,3 +135,15 @@ course_id in(SELECT course_id FROM section WHERE semester='Spring' and year=2008
 --create a relational database for empployee salary maintainance with attributes employeeID(pk),employeeName, salary, department, month.
 -- From Employee Table, transform rows into columns in mysql.
 
+create database employeebd;
+
+CREATE TABLE EmployeeSalary (
+    employeeID INT,                     -- Employee ID
+    employeeName VARCHAR(100),           -- Employee Name
+    salary DECIMAL(10,2),                -- Salary Amount
+    department VARCHAR(50),              -- Department Name
+    month VARCHAR(20),                   -- Salary Month
+    PRIMARY KEY (employeeID, month)      -- Composite Primary Key
+);
+
+-- insert value into the table
