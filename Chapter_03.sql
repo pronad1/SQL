@@ -147,3 +147,4 @@ CREATE TABLE EmployeeSalary (
 );
 
 -- insert value into the table
+
