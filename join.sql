@@ -9,3 +9,14 @@ CREATE TABLE Salaries (
     emp_id INT PRIMARY KEY,
     salary INT
 );
+
+-- Inner join
+SELECT e.emp_id, e.emp_name, s.salary
+FROM Employees e
+INNER JOIN Salaries s ON e.emp_id = s.emp_id;
+
+-- Left join
+SELECT e.emp_id, e.emp_name, s.salary
+FROM Employees e
+LEFT JOIN Salaries s ON e.emp_id = s.emp_id;
+
