@@ -132,4 +132,6 @@ FROM section
 where semester='Fall' and year=2007 AND
 course_id in(SELECT course_id FROM section WHERE semester='Spring' and year=2008);
 
---
+--create a relational database for empployee salary maintainance with attributes employeeID(pk),employeeName, salary, department, month.
+-- From Employee Table, transform rows into columns in mysql.
+
