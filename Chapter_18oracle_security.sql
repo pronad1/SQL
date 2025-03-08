@@ -84,13 +84,13 @@ SQL> create user jane identified by eyre
 
 User created.
 
-SQL> show user
+show user
 USER is "SYSTEM"
-SQL> grant create session to jane;
+grant create session to jane;
 
 Grant succeeded.
 
-SQL> connect jane/eyre;
+connect jane/eyre;
 Connected.
 SQL> show user
 USER is "JANE"
@@ -416,3 +416,115 @@ Doctor Is In              F          6
 Nation News               A          3
 
 15 rows selected.
+
+show user;
+
+
+-- Project Password Management
+
+create profile Password_Management limit
+    PASSWORD_LIFE_TIME 10
+    PASSWORD_GRACE_TIME 8
+    PASSWORD_REUSE_MAX 3
+    PASSWORD_LOCK_TIME 1
+    FAILED_LOGIN_ATTEMPTS 2
+    PASSWORD_REUSE_TIME 10
+    ;
+
+create user project identified by project
+profile Password_Management;
+
+grant create session to project;
+
+connect project/project;
+
+SQL> connect system/0000
+Connected.
+SQL> connect project/11
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+-- Account is lock after 2 failed login
+SQL> connect project/1
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+SQL> connect project/1
+ERROR:
+ORA-28000: the account is locked
+
+-- After 1 day
+
+SQL> connect project/project
+Connected.
+
+-- password expire after 10 days
+connect system/0000
+Connected.
+SQL> connect project/project
+ERROR:
+ORA-28002: the password will expire within 8 days
+
+
+Connected.
+
+-- password grace time 8 days
+
+SQL> connect project/project
+ERROR:
+ORA-28001: the password has expired
+
+
+Changing password for project
+New password:1
+Retype new password:1
+Password changed
+Connected.
+
+SQL> connect system/0000
+Connected.
+SQL> connect project/1
+Connected.
+
+-- password reuse time 10 days
+SQL> password
+Changing password for PROJECT
+Old password:
+New password:
+Retype new password:
+ERROR:
+ORA-28007: the password cannot be reused
+
+
+Password unchanged
+SQL> password
+Changing password for PROJECT
+Old password:
+New password:
+Retype new password:
+Password changed
+
+--password reuse max 3
+SQL> password
+Changing password for PROJECT
+Old password:
+New password:
+Retype new password:
+ERROR:
+ORA-28007: the password cannot be reused
+
+
+Password unchanged
+SQL> password
+Changing password for PROJECT
+Old password:
+New password:
+Retype new password:
+ERROR:
+ORA-28008: invalid old password
+
+
+Password unchanged
