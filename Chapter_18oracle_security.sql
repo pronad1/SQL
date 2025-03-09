@@ -609,7 +609,7 @@ SQL> grant create session to Person1;
 
 Grant succeeded.
 
-connect Person1/5678;
+connect Person1/5678; 
 Connected.
 
  grant create user, grant any privilege to Person2;
