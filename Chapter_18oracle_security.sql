@@ -754,6 +754,19 @@ Doctor Is In              F          6
 
 14 rows selected.
 
-SQL>
+SQL> connect Person1/5678;
+Connected.
+SQL> grant insert on newspaper to Person2;
+
+Grant succeeded.
+
+SQL> connect Person2/1234;
+
+Connected.
+
+SQL> insert into Person1.newspaper values ('Nation News','A',3);
+
+1 row created.
 
 
+SQL> select * from Person1.newspaper;
