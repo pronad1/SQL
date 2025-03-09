@@ -590,6 +590,7 @@ Password changed
 
 
 --  Project privilege Management
+-- 
 
 create user Person2 identified by 1234;
 
