@@ -590,7 +590,7 @@ Password changed
 
 
 --  Project privilege Management
--- 
+-- A table that create under a user and show that table and insert data from another user
 
 create user Person2 identified by 1234;
 
