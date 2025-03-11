@@ -1,10 +1,11 @@
 --3.1
 --a.Find the titles of courses in the Comp. Sci. department that have 3 credits. 
-SELECT title 
-SELECT sec_id, course_id, COUNT(ID) AS enrollment 
+SELECT title
+sec_id, course_id, COUNT(ID) AS enrollment 
 FROM takes 
 WHERE semester = 'Fall' AND year = 2017 
 GROUP BY sec_id, course_id;
+
 --b. Find the IDs of all students who were taught by an instructor named Einstein; make sure there are no duplicates in the result.
 SELECT DISTINCT takes.ID 
 FROM takes 
@@ -14,18 +15,22 @@ JOIN teaches ON takes.course_id = teaches.course_id
     AND takes.year = teaches.year 
 JOIN instructor ON teaches.ID = instructor.ID 
 WHERE instructor.name = 'Einstein';
+
 --c . Find the highest salary of any instructor. 
 SELECT MAX(salary) AS highest_salary 
 FROM instructor;
+
 --d. Find all instructors earning the highest salary (there may be more than one with the same salary). 
 SELECT name, salary 
 FROM instructor 
 WHERE salary = (SELECT MAX(salary) FROM instructor);
+
 --e. Find the enrollment of each section that was offered in Fall 2017.
 SELECT sec_id, course_id, COUNT(ID) AS enrollment 
 FROM takes 
 WHERE semester = 'Fall' AND year = 2007 
 GROUP BY sec_id, course_id;
+
 -- f. Find the maximum enrollment, across all sections, in Fall 2017.
 SELECT MAX(enrollment) AS max_enrollment 
 FROM ( 
@@ -34,6 +39,7 @@ FROM (
     WHERE semester = 'Fall' AND year = 2007 
     GROUP BY sec_id, course_id
 ) AS section_enrollment;
+
 --g.. Find the sections that had the maximum enrollment in Fall 2017.
 SELECT sec_id, course_id, COUNT(ID) AS enrollment 
 FROM takes 
