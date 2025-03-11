@@ -27,7 +27,7 @@ SELECT username FROM dba_users;
 
 
 
--- show profile attribute
+-- show profile attribute ---
 
 SELECT RESOURCE_NAME, LIMIT
 FROM DBA_PROFILES
