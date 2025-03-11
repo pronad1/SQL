@@ -288,10 +288,6 @@ alter user bob
 default tablespace users
 quota 5m on users;
 
-SQL> alter user bob
-  2  default tablespace users
-  3  quota 5m on users;
-
 User altered.
 
 SQL> show user
