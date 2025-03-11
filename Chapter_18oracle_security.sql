@@ -303,27 +303,6 @@ Table created.
 
  insert into NEWSPAPER values ('National News', 'A', 1);
 
-1 row created.
-
-SQL> insert into NEWSPAPER values ('Sports', 'D', 1);
-
-1 row created.
-
-SQL> insert into NEWSPAPER values ('Editorials', 'A', 12);
-
-1 row created.
-
-SQL> insert into NEWSPAPER values ('Business', 'E', 1);
-
-1 row created.
-
-SQL> insert into NEWSPAPER values ('Weather', 'C', 2);
-
-1 row created.
-
-SQL> insert into NEWSPAPER values ('Television', 'B', 7);
-
-1 row created.
 
 select * from newspaper;
 
