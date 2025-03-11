@@ -284,6 +284,9 @@ User created.
 SQL> grant create session, create table,create view, create synonym to bob;
 
 Grant succeeded.
+alter user bob
+default tablespace users
+quota 5m on users;
 
 SQL> alter user bob
   2  default tablespace users
