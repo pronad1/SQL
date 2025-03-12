@@ -340,7 +340,6 @@ and (SELECT count(*) from takes t
         )
      )<5;
 
-
 --31. Using the university schema, write an SQL query to find the ID and name of each instructor who has never given an A grade in any course she or he has taught. (Instructors who have never taught a course trivially satisfy this condition.)
 SELECT i.ID, i.name
 FROM instructor i
