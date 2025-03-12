@@ -229,3 +229,29 @@ WHERE s.id not in(
 SELECT dept_name, max(salary)
 from instructor
 GROUP By dept_name;
+
+--d. Find the lowest, across all departments, of the per-department maximum 
+--salary computed by the preceding query.
+SELECT min(max_salary)
+from (
+    SELECT dept_name, max(salary) as max_salary
+    from instructor
+    GROUP BY dept_name
+    ) as dept_max_salaries;
+
+--12. Write the SQL statements using the university schema to 
+--perform the following operations:
+--a. Create a new course “CS-001”, titled “Weekly Seminar”, with 0 credits.
+INSERT INTO course (course_id, title, dept_name, credits)
+VALUES ('CS-001', 'Weekly Seminar', 'Comp. Sci.', 0);
+
+--b. Create a section of this course in Fall 2017, with sec_id of 1, and with the location of this section not yet specified.
+insert into section(course_id,sec_id,semester,year)
+values('CS-101',1,'Fall',2017);
+
+--c. Enroll every student in the Comp. Sci. department in the above section.
+INSERT into takes (id,course_id,sec_id,semester,year)
+select student.id,'CS-001','Fall',2017
+from student
+where student.dept_name='Comp. Sci.';
+
