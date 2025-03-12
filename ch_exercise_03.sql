@@ -52,32 +52,123 @@ HAVING COUNT(*) order by COUNT(*) DESC limit 1;
 
 --2.Suppose you are given a relation grade points
 --a.Find the total grade points earned by the student with ID '10705', across all courses taken by the student.
-select sum(
-    case t.grade
-    when 'A' then 4*c.credits
-    when 'B' then 3*c.credits
-    when 'C' then 2*c.credits
-    when 'D' then 1*c.credits
-    when 'F' then 0
-    else 0.0
-    end
-) as total_grade_points
-from takes t
-join course c on t.course_id=c.course_id
-where t.ID='10705';
+SELECT 
+    SUM(
+        CASE T.grade
+            WHEN 'A+' THEN 4.3 * C.credits
+            WHEN 'A'  THEN 4.0 * C.credits
+            WHEN 'A-' THEN 3.7 * C.credits
+            WHEN 'B+' THEN 3.3 * C.credits
+            WHEN 'B'  THEN 3.0 * C.credits
+            WHEN 'B-' THEN 2.7 * C.credits
+            WHEN 'C+' THEN 2.3 * C.credits
+            WHEN 'C'  THEN 2.0 * C.credits
+            WHEN 'C-' THEN 1.7 * C.credits
+            WHEN 'D+' THEN 1.3 * C.credits
+            WHEN 'D'  THEN 1.0 * C.credits
+            WHEN 'D-' THEN 0.7 * C.credits
+            WHEN 'F'  THEN 0.0
+            ELSE 0.0
+        END
+    ) AS total_grade_points
+FROM takes T
+JOIN course C ON T.course_id = C.course_id
+WHERE T.ID = '10705';
+
 
 --b. Find the grade point average (GPA) for the above student, that is, the total 
 --grade points divided by the total credits for the associated courses.
-select sum(
-    case t.grade
-    when 'A' then 4*c.credits
-    when 'B' then 3*c.credits
-    when 'C' then 2*c.credits
-    when 'D' then 1*c.credits
-    when 'F' then 0
-    else 0.0
-    end
-) / sum(c.credits) as GPA
-from takes t join course c on t.course_id=c.course_id
-where t.ID='10705';
+SELECT 
+    SUM(
+        CASE T.grade
+            WHEN 'A+' THEN 4.3 * C.credits
+            WHEN 'A'  THEN 4.0 * C.credits
+            WHEN 'A-' THEN 3.7 * C.credits
+            WHEN 'B+' THEN 3.3 * C.credits
+            WHEN 'B'  THEN 3.0 * C.credits
+            WHEN 'B-' THEN 2.7 * C.credits
+            WHEN 'C+' THEN 2.3 * C.credits
+            WHEN 'C'  THEN 2.0 * C.credits
+            WHEN 'C-' THEN 1.7 * C.credits
+            WHEN 'D+' THEN 1.3 * C.credits
+            WHEN 'D'  THEN 1.0 * C.credits
+            WHEN 'D-' THEN 0.7 * C.credits
+            WHEN 'F'  THEN 0.0
+            ELSE 0.0
+        END
+    ) / SUM(C.credits) AS GPA
+FROM takes T 
+JOIN course C ON T.course_id = C.course_id
+WHERE T.ID = '10705';
 
+
+--c.Find the ID and the grade-point average of each student.
+select t.id, sum(
+    case t.grade
+        when 'A+' then 4*c.credits
+        when 'A' then 3.75*c.credits
+        when 'A-' then 3.5*c.credits
+        when 'B+' then 3.25*c.credits
+        when 'B' then 3*c.credits
+        when 'B-' then 2.75*c.credits
+        when 'C+' then 2.5*c.credits
+        when 'C' then 2.25*c.credits
+        when 'C-' then 2*c.credits
+        when 'D+' then 1.75*c.credits
+        when 'D' then 1.5*c.credits
+        when 'D-' then 1.25*c.credits
+        when 'F' then 0
+        else 0
+    end
+) / sum(c.credits) as gpa
+from takes t
+join course c on t.course_id=c.course_id
+group by t.id
+order by gpa desc;
+
+
+--d. Now reconsider your answers to the earlier parts of this exercise under the 
+--assumption that some grades might be null. Explain whether your solutions 
+--still work and, if not, provide versions that handle nulls properly.
+SELECT 
+    T.ID, 
+    COALESCE(SUM(
+        CASE COALESCE(T.grade, 'F') -- If grade is NULL, treat it as 'F'
+            WHEN 'A+' THEN 4.3 * C.credits
+            WHEN 'A'  THEN 4.0 * C.credits
+            WHEN 'A-' THEN 3.7 * C.credits
+            WHEN 'B+' THEN 3.3 * C.credits
+            WHEN 'B'  THEN 3.0 * C.credits
+            WHEN 'B-' THEN 2.7 * C.credits
+            WHEN 'C+' THEN 2.3 * C.credits
+            WHEN 'C'  THEN 2.0 * C.credits
+            WHEN 'C-' THEN 1.7 * C.credits
+            WHEN 'D+' THEN 1.3 * C.credits
+            WHEN 'D'  THEN 1.0 * C.credits
+            WHEN 'D-' THEN 0.7 * C.credits
+            WHEN 'F'  THEN 0.0
+            ELSE 0.0
+        END
+    ), 0) / NULLIF(SUM(C.credits), 0) AS GPA -- Prevent division by zero
+FROM takes T
+JOIN course C ON T.course_id = C.course_id
+GROUP BY T.ID
+ORDER BY GPA DESC;
+
+-- 3. Write the following inserts, deletes, or updates in SQL, using the 
+--university schema.
+
+--a. Increase the salary of each instructor in the Comp. Sci. department by 10%
+UPDATE instructor 
+SET salary = salary * 1.1 
+WHERE dept_name = 'Comp. Sci.';
+
+--b. Delete all courses that have never been offered (i.e., do not occur in the section 
+--relation).
+DELETE from course
+where  course_id not in (
+    SELECT course_id  from section
+    );
+
+--c. Insert every student whose tot_cred attribute is greater than 100 as an 
+--instructor in the same department, with a salary of $10,000
