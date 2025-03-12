@@ -80,3 +80,4 @@ select sum(
 ) / sum(c.credits) as GPA
 from takes t join course c on t.course_id=c.course_id
 where t.ID='10705';
+
