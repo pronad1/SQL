@@ -214,3 +214,12 @@ select DISTINCT s.id, name from student s
 join takes on s.ID=takes.ID
 join course on takes.course_id=course.course_id
 WHERE course.dept_name='Comp. Sci.';
+
+--b. Find the ID and name of each student who has not taken any course offered before 2017.
+select s.id, s.name from student s
+WHERE s.id not in(
+    SELECT takes.id
+    from takes
+    where takes.year<2017
+    );
+
