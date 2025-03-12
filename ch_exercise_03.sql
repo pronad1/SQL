@@ -65,3 +65,18 @@ select sum(
 from takes t
 join course c on t.course_id=c.course_id
 where t.ID='10705';
+
+--b. Find the grade point average (GPA) for the above student, that is, the total 
+--grade points divided by the total credits for the associated courses.
+select sum(
+    case t.grade
+    when 'A' then 4*c.credits
+    when 'B' then 3*c.credits
+    when 'C' then 2*c.credits
+    when 'D' then 1*c.credits
+    when 'F' then 0
+    else 0.0
+    end
+) / sum(c.credits) as GPA
+from takes t join course c on t.course_id=c.course_id
+where t.ID='10705';
