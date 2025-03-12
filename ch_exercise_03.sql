@@ -279,3 +279,28 @@ where course_id in(
     from course
     where lower(title) like "%advanced%"
 );
+
+--24. Using the university schema, write an SQL query to find the name and ID of those Accounting students advised by an instructor in the Physics department.
+SELECT s.name,s.ID
+from student s
+join advisor a on s.ID=a.s_ID
+JOIN instructor i on i.ID=a.i_ID
+where s.dept_name='Accounting' and i.dept_name='Physics';
+
+--25. Using the university schema, write an SQL query to find the names of those departments whose budget is higher than that of 
+--Philosophy. List them in alphabetic order.
+select dept_name
+from department
+where budget>(
+    select budget
+    from department
+    where dept_name='Philosophy'
+)
+
+--26. Using the university schema, use SQL to do the following: For each student who has retaken a course at least twice (i.e., the student has taken the course at least three times), show the courseID and the student’s ID. Please display your results in order of 
+--course ID and do not display duplicate rows.
+select DISTINCT course_id,ID
+from takes
+group by id,course_id
+having count(*)>2
+order by course_id;
