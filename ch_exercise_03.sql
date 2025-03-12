@@ -223,3 +223,9 @@ WHERE s.id not in(
     where takes.year<2017
     );
 
+--c. For each department, find the maximum salary of instructors in that 
+--department. You may assume that every department has at least one 
+--instructor.
+SELECT dept_name, max(salary)
+from instructor
+GROUP By dept_name;
