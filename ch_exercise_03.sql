@@ -205,3 +205,12 @@ from takes;
 SELECT dept_name
 from department
 where lower(dept_name) like "%sci%";
+
+--11.Write the following queries in SQL, using the university schema:
+
+--a. Find the ID and name of each student who has taken at least one Comp. Sci. 
+--course; make sure there are no duplicate names in the result.
+select DISTINCT s.id, name from student s
+join takes on s.ID=takes.ID
+join course on takes.course_id=course.course_id
+WHERE course.dept_name='Comp. Sci.';
