@@ -179,3 +179,29 @@ WHERE s.tot_cred > 100;
 
 
 --4
+
+
+--5Suppose that we have a relation marks(ID, score) and we wish 
+--to assign grades
+SELECT id, CASE
+when grade='A+' then 4.00
+when grade='A-' then 3.75
+when grade='A' then 3.50
+when grade='B' then 3.00
+when grade='B+' then 3.25
+when grade='B-' then 2.75
+when grade='C+' then 2.50
+when grade='C' then 2.25
+when grade='C-' then 2.00
+else 2.00
+END
+from takes;
+
+--6. The SQL like operator is case sensitive (in most systems), but 
+--the lower() funtion on strings can be used to perform case 
+--insensitive matching. To show how, write a query that finds 
+--departments whose names contain the string “sci” as a substring, 
+--regardless of the case.
+SELECT dept_name
+from department
+where lower(dept_name) like "%sci%";
