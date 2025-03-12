@@ -363,8 +363,7 @@ select tk2.grade
 
 
 --33. Using the university schema, write an SQL query to find the ID and title of each course in Comp. Sci. that has had at least one section with afternoon hours (i.e., ends at or after 12:00). (You should eliminate duplicates if any.)
-SELECT DISTINCT c.course_id, c.title
-FROM course c
+SELECT DISTINCT c.course_id, c.title FROM course c
 JOIN section s ON c.course_id = s.course_id
 JOIN time_slot t ON s.time_slot_id = t.time_slot_id
 WHERE t.end_hr >= 12 AND c.dept_name = 'Comp. Sci.';
