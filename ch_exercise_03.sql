@@ -51,4 +51,17 @@ GROUP BY sec_id,course_id
 HAVING COUNT(*) order by COUNT(*) DESC limit 1;
 
 --2.Suppose you are given a relation grade points
---a.Find the total grade points earned by the student with ID '12345', across all courses taken by the student.
+--a.Find the total grade points earned by the student with ID '10705', across all courses taken by the student.
+select sum(
+    case t.grade
+    when 'A' then 4*c.credits
+    when 'B' then 3*c.credits
+    when 'C' then 2*c.credits
+    when 'D' then 1*c.credits
+    when 'F' then 0
+    else 0.0
+    end
+) as total_grade_points
+from takes t
+join course c on t.course_id=c.course_id
+where t.ID='10705';
