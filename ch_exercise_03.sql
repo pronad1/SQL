@@ -30,3 +30,25 @@ year=2017 and semester='Fall'
 GROUP by course_id,sec_id;
 
 --f.Find the maximum enrollment, a ross all se tions, in Fall 2017.
+SELECT course_id,sec_id
+FROM takes
+where semester='Fall' and year=2017
+GROUP by course_id,sec_id
+HAVING count(id)=(
+SELECT MAX(enrollment_count)
+FROM (
+    SELECT COUNT(ID) AS enrollment_count
+    FROM takes
+    WHERE semester = 'Fall' AND year = 2017
+    GROUP BY course_id, sec_id
+) AS section_enrollments
+);
+
+--g. Find the sections that had the maximum enrollment in Fall 2017
+select sec_id,course_id from takes
+where year=2017 and semester='Fall'
+GROUP BY sec_id,course_id
+HAVING COUNT(*) order by COUNT(*) DESC limit 1;
+
+--2.Suppose you are given a relation grade points
+--a.Find the total grade points earned by the student with ID '12345', across all courses taken by the student.
