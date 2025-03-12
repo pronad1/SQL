@@ -306,3 +306,27 @@ having count(*)>2
 order by course_id;
 
 --27. Using the university schema, write an SQL query to find the Ds of those students who have retaken at least three distinct courses at least once (i.e., the student has taken the course at least two times).
+select t.id from takes t 
+where t.grade is not null and 
+2<=(
+    select count(course_id)
+    from takes t2
+    where t2.id=t.id and t2.course_id=t.course_id
+)
+group by t.id
+having count(distinct course_id)>=3;
+
+--28. Using the university schema, write an SQL query to find the names and IDs of those instructors who teach every course taught in his or her department (i.e., every course that appears in the course relation with the instructor’s department name). Order the result by name.
+select i.id,i.name
+from instructor i 
+join teaches t on i.id=t.id
+join course c on t.course_id=c.course_id and i.dept_name=c.dept_name
+group by i.id,i.name,c.dept_name
+having count(distinct t.course_id) = (
+    select count(*)
+    from course c2
+    where c2.dept_name=i.dept_name
+)
+order by i.name;
+
+--

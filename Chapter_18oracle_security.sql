@@ -558,7 +558,6 @@ Retype new password:
 ERROR:
 ORA-28007: the password cannot be reused
 
-
 Password unchanged
 SQL> password
 Changing password for PASSWORD
