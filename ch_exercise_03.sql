@@ -304,3 +304,5 @@ from takes
 group by id,course_id
 having count(*)>2
 order by course_id;
+
+--27. Using the university schema, write an SQL query to find the Ds of those students who have retaken at least three distinct courses at least once (i.e., the student has taken the course at least two times).
