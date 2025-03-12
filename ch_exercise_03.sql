@@ -329,4 +329,66 @@ having count(distinct t.course_id) = (
 )
 order by i.name;
 
---
+--29. Using the university schema, write an SQL query to find the name and ID of each History student whose name begins with the letter ‘D’ and who has not taken at least five Music courses.
+SELECT s.id,s.name from student s 
+WHERE s.dept_name='History' and s.name like "D%" 
+and (SELECT count(*) from takes t 
+     where t.ID=s.ID
+     and t.course_id in (
+         SELECT c.course_id from course c 
+         where c.dept_name='Music'
+        )
+     )<5;
+
+
+--31. Using the university schema, write an SQL query to find the ID and name of each instructor who has never given an A grade in any course she or he has taught. (Instructors who have never taught a course trivially satisfy this condition.)
+SELECT i.ID, i.name
+FROM instructor i
+LEFT JOIN teaches t ON i.ID = t.ID
+LEFT JOIN takes tk ON t.course_id = tk.course_id
+WHERE tk.grade != 'A' OR tk.grade IS NULL
+GROUP BY i.ID;
+
+
+--32. Rewrite the preceding query, but also ensure that you include only instructors who have given at least one other non-null grade in some course.
+SELECT distinct i.ID, i.name
+FROM instructor i
+LEFT JOIN teaches t ON i.ID = t.ID
+LEFT JOIN takes tk ON t.course_id = tk.course_id
+WHERE tk.grade != 'A' AND EXISTS (
+select tk2.grade
+ from takes tk2
+ where t.course_id = tk2.course_id
+ and tk2.grade is not null
+);
+
+
+--33. Using the university schema, write an SQL query to find the ID and title of each course in Comp. Sci. that has had at least one section with afternoon hours (i.e., ends at or after 12:00). (You should eliminate duplicates if any.)
+SELECT DISTINCT c.course_id, c.title
+FROM course c
+JOIN section s ON c.course_id = s.course_id
+JOIN time_slot t ON s.time_slot_id = t.time_slot_id
+WHERE t.end_hr >= 12 AND c.dept_name = 'Comp. Sci.';
+
+
+--34. Using the university schema, write an SQL query to find the number of students in each section. The result columns should appear in the order "courseid, secid, year, semester, num." You do not need to output sections with 0 students.
+SELECT s.course_id, s.sec_id, s.year, s.semester,
+COUNT(t.ID) AS num
+FROM section s
+LEFT JOIN takes t ON s.course_id = t.course_id
+AND s.sec_id = t.sec_id
+GROUP BY course_id, sec_id, year, semester
+HAVING num > 0;
+
+
+--35. Using the university schema, write an SQL query to find section(s) with maximum enrollment. The result columns should appear in the order "courseid, secid, year, semester, num." (It may be convenient to use the WITH construct.)
+WITH section_enrollment AS (
+ SELECT s.course_id, s.sec_id, s.year, s.semester, COUNT(t.ID) AS num
+ FROM section s
+ LEFT JOIN takes t ON s.course_id = t.course_id
+ AND s.sec_id = t.sec_id
+ GROUP BY course_id, sec_id, year, semester
+)
+SELECT course_id, sec_id, year, semester, num
+FROM section_enrollment
+WHERE num = (SELECT MAX(num) FROM section_enrollment);
