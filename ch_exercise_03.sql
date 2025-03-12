@@ -172,3 +172,7 @@ where  course_id not in (
 
 --c. Insert every student whose tot_cred attribute is greater than 100 as an 
 --instructor in the same department, with a salary of $10,000
+INSERT INTO instructor (ID, name, dept_name, salary)
+SELECT s.ID, s.name, s.dept_name, 30000
+FROM student s
+WHERE s.tot_cred > 100;
