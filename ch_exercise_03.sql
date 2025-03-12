@@ -255,3 +255,27 @@ select student.id,'CS-001','Fall',2017
 from student
 where student.dept_name='Comp. Sci.';
 
+--d. Delete enrollments in the above section where the student’s ID is 12345.
+DELETE from takes
+where course_id='CS-001'
+and sec_id=1
+and semester='Fall'
+and year=2017
+and id='12345'
+;
+
+--e. Delete the course CS-001. What will happen if you run this delete statement 
+--without first deleting offerings (sections) of this course?
+DELETE FROM course
+WHERE course_id = 'CS-001';
+-- Note: If you run this delete statement without first deleting the sections of this course, it will fail 
+-- due to foreign key constraints (if the database enforces referential integrity).
+
+--f. Delete all takes tuples corresponding to any section of any course with the 
+--word “advanced” as a part of the title; ignore case when matching the word with the title.
+delete from takes
+where course_id in(
+    select course_id
+    from course
+    where lower(title) like "%advanced%"
+);
