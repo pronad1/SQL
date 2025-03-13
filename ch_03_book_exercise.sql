@@ -387,6 +387,7 @@ WITH section_enrollment AS (
  AND s.sec_id = t.sec_id
  GROUP BY course_id, sec_id, year, semester
 )
+
 SELECT course_id, sec_id, year, semester, num
 FROM section_enrollment
 WHERE num = (SELECT MAX(num) FROM section_enrollment);
