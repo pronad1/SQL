@@ -2,6 +2,8 @@
 show user;
 connect SYSTEM/0000;
 
+drop user b cascade;
+
 grant CREATE session to dora;
 
 show user;
