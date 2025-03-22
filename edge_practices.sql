@@ -211,3 +211,23 @@ Password changed
 -- It was used in the last 4 days.
 -- It is one of the last 3 passwords used.
 
+SQL> connect system/0000;
+Connected.
+SQL> connect edge/2;
+Connected.
+SQL> password
+Changing password for EDGE
+Old password:2
+New password:1
+Retype new password:1
+ERROR:
+ORA-28007: the password cannot be reused
+
+
+Password unchanged
+SQL> password
+Changing password for EDGE
+Old password:2
+New password:3
+Retype new password:3
+Password changed
