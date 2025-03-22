@@ -205,3 +205,9 @@ New password:2
 Retype new password:2
 Password changed
 
+-- Password_reuse_max 3 mean Specifies that a user cannot reuse the last 3 passwords.
+-- If both parameters are set, both conditions must be met before a password can be reused.
+-- A user cannot reuse a password if:
+-- It was used in the last 4 days.
+-- It is one of the last 3 passwords used.
+
