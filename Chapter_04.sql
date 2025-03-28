@@ -53,3 +53,23 @@ GROUP BY
     d.dept_name;
 
 --4.3
+--a
+SELECT student.* , takes.*
+FROM student 
+LEFT JOIN takes 
+ON student.ID = takes.ID;
+
+--b
+SELECT student.*, takes.*
+FROM student 
+LEFT JOIN takes 
+ON student.ID = takes.ID
+
+UNION
+
+SELECT student.*, takes.*
+FROM student 
+RIGHT JOIN takes 
+ON student.ID = takes.ID;
+
+
