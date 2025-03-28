@@ -73,3 +73,21 @@ RIGHT JOIN takes
 ON student.ID = takes.ID;
 
 
+--4.5
+--a
+SELECT i.name, t.course_id, c.title
+FROM instructor i 
+JOIN teaches t ON i.ID = t.ID
+JOIN course c ON t.course_id = c.course_id;
+
+--b
+SELECT s.name, t.course_id
+FROM student s 
+LEFT JOIN takes t ON s.ID = t.ID;
+
+--c 
+SELECT s.name, i.name AS advisor
+FROM student s
+LEFT JOIN instructor i ON s.ID = i.ID;
+
+
