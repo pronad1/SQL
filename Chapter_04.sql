@@ -113,5 +113,57 @@ GROUP BY
 
 
 
---4.7
+--4.10
+(
+    SELECT a.name, a.address, a.title, b.salary
+    FROM a LEFT JOIN b USING (name, address)
+UNION
+(
+    SELECT b.name, b.address, a.title, b.salary
+    FROM a RIGHT JOIN b USING (name, address)
+LIMIT 0, 25;
+
+--4.14
+SELECT course_id, semester, year, sec_id, avg(tot_cred)
+FROM takes NATURAL JOIN student
+WHERE year = 2017
+GROUP BY course_id, semester, year, sec_id
+HAVING count(ID) >= 2;
+
+--4.15 Can be rewritten using INNER JOIN with USING as follows:
+SELECT *
+FROM section INNER JOIN classroom
+USING (building, room_number);
+
+--4.16 4.16 Write an SQL query using the university schema to find the ID of each student who has never taken a course at the university. Do this using no subqueries and
+--no set operations (use an outer join).
+
+SELECT s.ID
+FROM student s
+LEFT JOIN takes t ON s.ID = t.ID
+WHERE t.ID IS NULL;
+
+
+--4.17
+SELECT s.ID
+FROM student s
+LEFT JOIN advisor a ON s.ID = a.s_ID
+WHERE a.s_ID IS NULL;
+
+
+--4.18
+SELECT employee_ID
+FROM employee
+WHERE manager_ID IS NULL;
+
+--4.19
+SELECT * 
+FROM student NATURAL FULL OUTER JOIN takes 
+NATURAL FULL OUTER JOIN course
+
+--4.20
+CREATE VIEW tot_credits(year, num_credits) AS
+SELECT year, SUM(credits)
+FROM takes NATURAL JOIN course
+GROUP BY year;
 
