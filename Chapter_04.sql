@@ -91,3 +91,27 @@ FROM student s
 LEFT JOIN instructor i ON s.ID = i.ID;
 
 
+--4.6
+
+CREATE VIEW student_gpa AS
+SELECT 
+    s.ID AS student_id,
+    COALESCE(
+        SUM(gp.points * c.credits) / NULLIF(SUM(c.credits), 0),
+    0) AS GPA
+FROM 
+    student s
+LEFT JOIN 
+    takes t ON s.ID = t.ID AND t.grade IS NOT NULL
+LEFT JOIN 
+    course c ON t.course_id = c.course_id
+LEFT JOIN 
+    grade_points gp ON t.grade = gp.grade
+GROUP BY 
+    s.ID;
+
+
+
+
+--4.7
+
