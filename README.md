@@ -4,6 +4,7 @@ This repository provides an overview and essential resources for working with **
 
 ---
 
+
 ## 🚀 About MySQL
 
 **MySQL** is an open-source relational database management system (RDBMS) based on SQL (Structured Query Language). It is widely used for web applications, data warehousing, and e-commerce platforms due to its simplicity, performance, and flexibility.
