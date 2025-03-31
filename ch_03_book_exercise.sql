@@ -379,7 +379,6 @@ AND s.sec_id = t.sec_id
 GROUP BY course_id, sec_id, year, semester
 HAVING num > 0;
 
-
 --35. Using the university schema, write an SQL query to find section(s) with maximum enrollment. The result columns should appear in the order "courseid, secid, year, semester, num." (It may be convenient to use the WITH construct.)
 WITH section_enrollment AS (
  SELECT s.course_id, s.sec_id, s.year, s.semester, COUNT(t.ID) AS num
