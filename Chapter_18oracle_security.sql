@@ -567,7 +567,6 @@ Retype new password:
 Password changed
 -- In this case we cann't use mutually exclusive mean if we set a value for one of them, the other must not be set to UNLIMITED.
 
-
 --  Project privilege Management
 -- A table that create under a user and show that table and insert data from another user
 
