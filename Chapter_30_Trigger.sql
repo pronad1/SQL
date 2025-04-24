@@ -282,7 +282,7 @@ delete from bookshelf
 ERROR at line 1:
 ORA-20001: Deletion is not allowed on weekend
 ORA-06512: at "SYSTEM.BOOKSHELF_BEF_DEL", line 13
-ORA-04088: error during execution of trigger 'SYSTEM.BOOKSHELF_BEF_DEL'
+ORA-04088: error during execution of trigger 'SYSTEM.BOOKSHELF_BEF_DEL' --Here this two line extra error we need to fixed it
 
 
 SQL>
