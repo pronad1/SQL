@@ -252,6 +252,7 @@ select * from EDGE;
 
 update EDGE set RATING = 20 where TITLE='SHOWLESS';
 
+-- a statement-level BEFORE DELETE trigger on the BOOKSHELF table. 
 
 SQL> create or replace trigger bookshelf_bef_del
   2  before delete on bookshelf
