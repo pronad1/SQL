@@ -60,23 +60,24 @@ GROUP BY
 
 --4.3
 --a
-SELECT student.* , takes.*
-FROM student 
-LEFT JOIN takes 
-ON student.ID = takes.ID;
+selet * from student natural join takes
+union
+selet ID, name, dept name, tot_cred, null, null, null, null, null
+from student S1 where not exists
+(selet ID from takes T1 where T1.id = S1.id)
 
 --b
-SELECT student.*, takes.*
-FROM student 
-LEFT JOIN takes 
-ON student.ID = takes.ID
-
-UNION
-
-SELECT student.*, takes.*
-FROM student 
-RIGHT JOIN takes 
-ON student.ID = takes.ID;
+(selet * from student natural join takes)
+union
+(selet ID, name, dept name, tot_cred, null, null, null, null, null
+from student S1
+where not exists
+(selet ID from takes T1 where T1.id = S1.id))
+union
+(selet ID, null, null, null, course_id, sec_id, semester, year, grade
+from takes T1
+where not exists
+(selet ID from student S1 where T1.id = S1.id))
 
 
 --4.5
