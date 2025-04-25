@@ -41,17 +41,10 @@ LEFT JOIN teaches t
 LEFT JOIN instructor i 
     ON t.ID = i.ID;
 --OR
-sele
-t 
-ourse id, se
- id, ID,
-de
-ode(name, null, '*', name) as name
-from (se
-tion natural left outer join tea
-hes)
-natural left outer join instru
-tor
+selet course_id, sec_id, ID,
+decode(name, null, '*', name) as name
+from (setion natural left outer join teahes)
+natural left outer join instrutor
 where semester='Spring' and year= 2018
 
 --d
