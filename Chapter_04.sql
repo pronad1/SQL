@@ -40,6 +40,19 @@ LEFT JOIN teaches t
     AND s.year = t.year
 LEFT JOIN instructor i 
     ON t.ID = i.ID;
+--OR
+sele
+t 
+ourse id, se
+ id, ID,
+de
+ode(name, null, '*', name) as name
+from (se
+tion natural left outer join tea
+hes)
+natural left outer join instru
+tor
+where semester='Spring' and year= 2018
 
 --d
 SELECT 
