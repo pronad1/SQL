@@ -16,6 +16,7 @@ teaches.id=instructor.ID and
 instructor.name='Bawa';
 
 --c.Find the highest salary of any instructor.
+select max(salary) from instructor;  --OR 
 SELECT salary from instructor order by salary DESC limit 1;
 
 --d.Find all instructors earning the highest salary (there may be more than one with the same salary).
