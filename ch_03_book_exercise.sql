@@ -12,7 +12,8 @@ where takes.course_id=teaches.course_id and
 takes.sec_id=teaches.sec_id and 
 takes.semester=teaches.semester and 
 takes.year=teaches.year and 
-teaches.id=(SELECT ID from instructor where name='Bawa') ;
+teaches.id=instructor.ID and 
+instructor.name='Bawa';
 
 --c.Find the highest salary of any instructor.
 SELECT salary from instructor order by salary DESC limit 1;
