@@ -88,6 +88,11 @@ FROM takes T
 JOIN course C ON T.course_id = C.course_id
 WHERE T.ID = '10705';
 
+--If grade_point is available then we can easily write
+select sum(credits*point) 
+from takes,course,grade_points 
+where takes.grade=grade_points.grade and
+takes.course_id=course.course_id and id='10705'
 
 --b. Find the grade point average (GPA) for the above student, that is, the total 
 --grade points divided by the total credits for the associated courses.
@@ -114,6 +119,11 @@ FROM takes T
 JOIN course C ON T.course_id = C.course_id
 WHERE T.ID = '10705';
 
+-- Or 
+select sum(credits*point)/sum(credits) as GPA 
+from takes , course , grade_points 
+where takes.grade=grade_points.grade and takes.course_id=course.course_id 
+and id ='10705';
 
 --c.Find the ID and the grade-point average of each student.
 select t.id, sum(
