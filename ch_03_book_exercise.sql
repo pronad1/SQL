@@ -7,12 +7,12 @@ where dept_name='Comp. Sci.' and credits=3;
 --b.Find the IDs of all students who were taught by an instructor named 
 --Bawa; make sure there are no duplicates in the result.
 SELECT DISTINCT takes.ID
-from takes,instructor,teaches
+from takes, instructor, teaches
 where takes.course_id=teaches.course_id and 
 takes.sec_id=teaches.sec_id and 
 takes.semester=teaches.semester and 
 takes.year=teaches.year and 
-teaches.id=(SELECT ID from instructor where name='Bawa');
+teaches.id=(SELECT ID from instructor where name='Bawa') ;
 
 --c.Find the highest salary of any instructor.
 SELECT salary from instructor order by salary DESC limit 1;
