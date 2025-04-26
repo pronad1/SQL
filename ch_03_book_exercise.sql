@@ -36,19 +36,18 @@ t.year=2007 and t.semester='Fall'
 GROUP by t.course_id,t.sec_id;
 
 --f.Find the maximum enrollment, a ross all se tions, in Fall 2017.
-SELECT course_id,sec_id
-FROM takes
-where semester='Fall' and year=2017
-GROUP by course_id,sec_id
-HAVING count(id)=(
-SELECT MAX(enrollment_count)
-FROM (
-    SELECT COUNT(ID) AS enrollment_count
-    FROM takes
-    WHERE semester = 'Fall' AND year = 2017
-    GROUP BY course_id, sec_id
-) AS section_enrollments
-);
+select max(en) 
+from (
+    select count(ID)
+    from section s,takes t 
+    where t.course_id=s.course_id and
+    t.sec_id=s.sec_id and
+    t.semester=s.semester and 
+    t.year=s.year and
+    t.year=2007 and t.semester='Fall'
+    group by t.course_id,t.sec_id
+) as subquery;
+
 
 --g. Find the sections that had the maximum enrollment in Fall 2017
 select sec_id,course_id from takes
