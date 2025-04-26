@@ -21,16 +21,19 @@ SELECT salary from instructor order by salary DESC limit 1;
 
 --d.Find all instructors earning the highest salary (there may be more than one with the same salary).
 SELECT ID,name from instructor
-WHERE salary=(select salary
-from instructor
-order by salary desc
-limit 1);
+WHERE salary=(select max(salary)
+from instructor);
 
---e.. Find the enrollment of each section that was offered in Fall 2017.
-SELECT course_id,sec_id,COUNT(*)
-from takes WHERE
-year=2017 and semester='Fall'
-GROUP by course_id,sec_id;
+--e.. Find the enrollment of each section that was offered in Fall 2007.
+SELECT t.course_id,t.sec_id,COUNT(ID)
+from section s,takes t
+WHERE
+t.course_id=s.course_id and
+t.sec_id=s.sec_id and
+t.semester=s.semester and
+t.year=s.year and
+t.year=2007 and t.semester='Fall'
+GROUP by t.course_id,t.sec_id;
 
 --f.Find the maximum enrollment, a ross all se tions, in Fall 2017.
 SELECT course_id,sec_id
