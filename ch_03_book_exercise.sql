@@ -192,7 +192,7 @@ DELETE from course
 where  course_id not in (
     SELECT course_id  from section
     );
-    
+
 
 --c. Insert every student whose tot_cred attribute is greater than 100 as an 
 --instructor in the same department, with a salary of $10,000
@@ -220,6 +220,22 @@ when grade='C-' then 2.00
 else 2.00
 END
 from takes;
+
+--5. Find the number of students with each grade
+
+with grades as (
+    select ID ,
+    case 
+    when score<40 then 'F'
+    when score<60 then 'C'
+    when score<80 then 'B'
+    else 'A'
+    end as grade
+    from marks
+)
+select grade,count(ID) 
+from grades
+group by grade
 
 --6. The SQL like operator is case sensitive (in most systems), but 
 --the lower() funtion on strings can be used to perform case 
