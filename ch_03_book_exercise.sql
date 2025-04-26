@@ -192,6 +192,7 @@ DELETE from course
 where  course_id not in (
     SELECT course_id  from section
     );
+    
 
 --c. Insert every student whose tot_cred attribute is greater than 100 as an 
 --instructor in the same department, with a salary of $10,000
