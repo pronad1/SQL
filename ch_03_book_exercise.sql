@@ -217,10 +217,20 @@ where accident.report_number=participated.report_number and
 --b. Delete all year-2010 ars belonging to the person whose ID is 12345.
 delete car where year=2010 and 
     license_plate in (select license_plate from owns where owns.driver_id='12345');
-    
+
 
 --5Suppose that we have a relation marks(ID, score) and we wish 
 --to assign grades
+
+--a.
+select id ,case 
+when score<40 then 'F'
+when score<60 then 'C'
+when score<80 then 'B'
+else 'A'
+end as grade
+from marks
+--OR
 SELECT id, CASE
 when grade='A+' then 4.00
 when grade='A-' then 3.75
@@ -235,7 +245,7 @@ else 2.00
 END
 from takes;
 
---5. Find the number of students with each grade
+--b. Find the number of students with each grade
 
 with grades as (
     select ID ,
