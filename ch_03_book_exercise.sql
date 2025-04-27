@@ -187,6 +187,7 @@ UPDATE instructor
 SET salary = salary * 1.1 
 WHERE dept_name = 'Comp. Sci.';
 
+
 --b. Delete all courses that have never been offered (i.e., do not occur in the section 
 --relation).
 DELETE from course
@@ -205,6 +206,18 @@ WHERE s.tot_cred > 100;
 
 --4
 
+--a. Find the total number of people who owned cars that were involved in accidents in 2017.
+select count(distinct person.driver_id) 
+from accident, participated, person, owns
+where accident.report_number=participated.report_number and  
+    owns.driver_id=person.driver_id and
+    owns.license_plate=participated.license_plate and
+    year=2017;
+
+--b. Delete all year-2010 ars belonging to the person whose ID is 12345.
+delete car where year=2010 and 
+    license_plate in (select license_plate from owns where owns.driver_id='12345');
+    
 
 --5Suppose that we have a relation marks(ID, score) and we wish 
 --to assign grades
