@@ -305,6 +305,7 @@ from (
 
 --12. Write the SQL statements using the university schema to 
 --perform the following operations:
+
 --a. Create a new course “CS-001”, titled “Weekly Seminar”, with 0 credits.
 INSERT INTO course (course_id, title, dept_name, credits)
 VALUES ('CS-001', 'Weekly Seminar', 'Comp. Sci.', 0);
