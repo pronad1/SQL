@@ -1,7 +1,6 @@
 # MySQL and Oracle Overview
 
 This repository provides an overview and essential resources for working with **MySQL** and **Oracle** databases. It is intended for developers, database administrators, and anyone interested in relational database management systems.
-
 ---
 
 ## 🚀 About MySQL
