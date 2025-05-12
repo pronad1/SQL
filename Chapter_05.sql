@@ -194,7 +194,6 @@ create or replace view INVASION as
 
 
 --   Expanding the View
-
   create or replace view PERU_LOCATIONS as
  select * from LOCATION
  where Country = 'PERU';
