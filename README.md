@@ -97,3 +97,6 @@ CREATE TABLE employees (
 
 INSERT INTO employees (emp_name, department) VALUES ('John Doe', 'HR');
 SELECT * FROM employees;
+```
+###
+```
