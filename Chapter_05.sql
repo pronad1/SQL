@@ -1,5 +1,7 @@
 --Show tables
 SELECT distinct table_name FROM user_tables;
+--Drop table
+DROP TABLE table_name;
 
 
 select * from location;
