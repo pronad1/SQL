@@ -8,6 +8,16 @@ select * from location;
 show user;
 SELECT * from newspaper;
 
+-- show numwidth
+SHOW NUMWIDTH;
+set NUMWIDTH 5;
+-- show pagesize
+SHOW PAGESIZE;
+set PAGESIZE 20;
+-- show linesize
+SHOW LINESIZE;
+set LINESIZE 100;
+
 describe newspaper;
 set FEEDBACK OFF;
 
