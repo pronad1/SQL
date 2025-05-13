@@ -1,4 +1,5 @@
--- Trigger Management
+-------------------  CHAPTER 30
+-- Trigger Management               
 
 
 create table edge(
@@ -53,6 +54,8 @@ update EDGE set RATING = 20 where TITLE='SHOWLESS';
 
 
 --------------- CHAPTER 18
+
+
 -- Project Privilege Management
 show user;
 create user b identified by b;
@@ -74,6 +77,7 @@ CREATE table newspaper(
 );
 
 select * from newspaper;
+
 
 grant select on newspaper to b;
 
