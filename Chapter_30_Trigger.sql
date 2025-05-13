@@ -287,3 +287,5 @@ ORA-04088: error during execution of trigger 'SYSTEM.BOOKSHELF_BEF_DEL' --Here t
 
 
 SQL>
+
+-- Maintaining Duplicated Data    ,,, need to do this
