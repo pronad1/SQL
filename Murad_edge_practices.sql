@@ -24,6 +24,7 @@ CREATE table edge_audit(
 );
 -- DROP TABLE EDGE_AUDIT;
 -- DROP TRIGGER edge_audit_rec;
+
 SELECT * from EDGE_AUDIT;
 
 create or replace trigger edge_audit_rec
