@@ -119,7 +119,8 @@ drop trigger BOOKSHELF_BEF_UPD_ROW;
 -- create trigger for insert and update
 create or REPLACE trigger BOOKSHELF_BEF_UPD_INS_ROW 
 before INSERT or update of rating on BOOKSHELF
-for each row BEGIN
+for each row 
+BEGIN
 if INSERTING then 
 insert into BOOKSHELF_AUDIT
 (Title, Publisher,CategoryName,New_Rating,Audit_Date)
