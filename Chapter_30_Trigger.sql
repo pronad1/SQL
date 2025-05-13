@@ -288,4 +288,12 @@ ORA-04088: error during execution of trigger 'SYSTEM.BOOKSHELF_BEF_DEL' --Here t
 
 SQL>
 
--- Maintaining Duplicated Data    ,,, need to do this
+-- Maintaining Duplicated Data 
+
+ create table BOOKSHELF_AUDIT_DUP
+ (Title       VARCHAR2(100),
+ Publisher    VARCHAR2(20),
+ CategoryName VARCHAR2(20),
+ Old_Rating   VARCHAR2(2),
+ New_Rating   VARCHAR2(2),
+ Audit_Date   DATE);
