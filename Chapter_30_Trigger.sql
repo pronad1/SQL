@@ -255,24 +255,26 @@ update EDGE set RATING = 20 where TITLE='SHOWLESS';
 
 -- a statement-level BEFORE DELETE trigger on the BOOKSHELF table. 
 
-SQL> create or replace trigger bookshelf_bef_del
-  2  before delete on bookshelf
-  3  declare
-  4  weekend_error exception;
-  5  not_user exception;
-  6  begin
-  7  if to_char(sysdate,'dy')='fri' or
-  8  to_char(sysdate,'dy')='thu' then
-  9  raise weekend_error;
- 10  end if;
- 11  if substr(user,1,3)<>'cse' then
- 12  raise not_user;
- 13  end if;
- 14  exception
- 15  when weekend_error then raise_application_error(-20001,'Deletion is not allowed on weekend');
- 16  when not_user then raise_application_error(-20001,'Deletion is not allowed by library user');
- 17  end;
- 18  ;
+SQL> 
+create or replace trigger bookshelf_bef_del
+before delete on bookshelf
+declare
+weekend_error exception;
+not_user exception;
+begin
+if to_char(sysdate,'dy')='fri' or
+to_char(sysdate,'dy')='wed' then    
+raise weekend_error;
+end if;
+if substr(user,1,3)<>'cse' then
+raise not_user;
+end if;
+exception
+when weekend_error then raise_application_error(-20001,'Deletion is not allowed on weekend');
+when not_user then raise_application_error(-20001,'Deletion is not allowed by library user');
+end;
+/
+
 
 Trigger created.
 
