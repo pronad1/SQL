@@ -272,7 +272,7 @@ SQL> create or replace trigger bookshelf_bef_del
  15  when weekend_error then raise_application_error(-20001,'Deletion is not allowed on weekend');
  16  when not_user then raise_application_error(-20001,'Deletion is not allowed by library user');
  17  end;
- 18  /
+ 18  ;
 
 Trigger created.
 
