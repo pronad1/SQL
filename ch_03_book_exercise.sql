@@ -222,7 +222,7 @@ delete car where year=2010 and
 --5Suppose that we have a relation marks(ID, score) and we wish 
 --to assign grades
 
---a.
+--a.Display the grade for each student, based on the marks relation.
 select id ,case 
 when score<40 then 'F'
 when score<60 then 'C'

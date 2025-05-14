@@ -296,5 +296,3 @@ SELECT trigger_name, triggering_event, status, description
 FROM user_triggers
 WHERE table_name = 'BOOKSHELF';
 
-
-
