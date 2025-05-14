@@ -356,15 +356,10 @@ and credits = 3;
 
 --02.Find the IDs of all students who were taught by an instructor named Einstein; make sure there are no duplicates in the result.
 
-select takes_table.ID 
-from takes takes_table
-join teaches teaches_table
-	on takes_table.course_id = teaches_table.course_id
-    and takes_table.sec_id = teaches_table.sec_id
-    and takes_table.semester = teaches_table.semester
-    and takes_table.year = teaches_table.year 
-where teaches_table.ID = ( select ID from instructor
-where name = "Einstein" ) ;
+select distinct s.id from student s join advisor a
+on s.id=a.s_ID join instructor i on i.id=a.i_ID
+where 
+i.name='Einstein';
 
 --03.Find the ID and name of each student who has taken at least one Comp. Sci. course; make sure there are no duplicate names in the result.
 
