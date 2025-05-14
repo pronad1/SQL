@@ -14,7 +14,7 @@ WHERE
  
 
 
-Display a list of all instructors, showing each instructor’s ID and the number of sections taught. Make sure to show the number of sections as 0 for instructors who have not taught any section.
+--02.Display a list of all instructors, showing each instructor’s ID and the number of sections taught. Make sure to show the number of sections as 0 for instructors who have not taught any section.
 
 SELECT 
     I.ID, COUNT(T.ID) as number_of_sections
