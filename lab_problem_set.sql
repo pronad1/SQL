@@ -361,7 +361,15 @@ on s.id=a.s_ID join instructor i on i.id=a.i_ID
 where 
 i.name='Einstein';
 
---03.Find the ID and name of each student who has taken at least one Comp. Sci. course; make sure there are no duplicate names in the result.
+--03.Find the ID and name of each student who has taken at least 2 Comp. Sci. courses; make sure there are no duplicate names in the result.
+
+SELECT DISTINCT s.ID, s.name
+FROM student s
+JOIN takes t ON s.ID = t.ID
+JOIN course c ON t.course_id = c.course_id
+WHERE c.dept_name = 'Comp. Sci.'
+GROUP BY s.ID, s.name
+HAVING COUNT(DISTINCT c.course_id) >= 2;
 
 select distinct ID, name
 from student 
@@ -389,10 +397,13 @@ natural left join department
 order by (salary/ budget) asc;
  
 
---06.Output instructor names and buildings for each building an instructor has taught in. Include instructor names who have not taught any classes (the building name should be NULL in this case).
+--06.Output instructor names and buildings for each building an instructor has taught in. 
+--Include instructor names who have not taught any classes (the building name should be NULL in this case).
 
-select name, building
-from instructor
-natural left join teaches 
-natural left join section;
- 
+SELECT i.name, s.building
+FROM instructor i
+LEFT JOIN teaches t ON i.ID = t.ID
+LEFT JOIN section s ON t.course_id = s.course_id 
+                   AND t.sec_id = s.sec_id 
+                   AND t.semester = s.semester 
+                   AND t.year = s.year;
