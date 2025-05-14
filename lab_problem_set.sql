@@ -282,76 +282,15 @@ WHERE te.ID = '110011';
 
 --27.Find the ID and names of all instructors whose salary is greater than at least one instructor in the History department.
 
-select ID, name
-from instructor
-where salary > ( select min(T.salary) from (
-	select salary
-    from instructor
-    where dept_name = "History"
-) as T );
- 
--- small db
-# ID, name
-'10101', 'Srinivasan'
-'12121', 'Wu'
-'22222', 'Einstein'
-'33456', 'Gold'
-'45565', 'Katz'
-'58583', 'Califieri'
-'76543', 'Singh'
-'76766', 'Crick'
-'83821', 'Brandt'
-'98345', 'Kim'
-Find the names of all instructors that have a salary value greater than that of each instructor in the Biology department.
+select id, name from instructor where salary>(select min(salary) from instructor where dept_name='History');
 
-select name
-from instructor
-where salary > ( select max(T.salary) from (
-	select salary
-    from instructor
-    where dept_name = "Biology"
-) as T );
  
--- small db
-# name
-'Wu'
-'Einstein'
-'Gold'
-'Katz'
-'Singh'
-'Brandt'
-'Kim'
- 
--- big db
-# name
-'Yazdi'
-'Wieland'
-'Liley'
-'Atanassov'
-'Gustafsson'
-'Bourrier'
-'Bondi'
-'Arias'
-'Luo'
-'Romero'
-'Lent'
-'Sarkar'
-'Shuming'
-'Bancilhon'
-'Jaekel'
-'McKinnon'
-'Mingoz'
-'Pimenta'
-'Sullivan'
-'Voronina'
-'Kenje'
-'Mahmoud'
-'Levine'
-'Bietzk'
-'Sakurai'
-'Mird'
-'Dale'
-Find the departments that have the highest average salary.
+-- 28.Find the names of all instructors that have a salary value greater than that of each instructor in the Biology department.
+
+select id, name from instructor where salary>(select max(salary) from instructor where dept_name='Biology');
+
+
+--29.Find the departments that have the highest average salary.
 
 select dept_name
 from instructor
@@ -359,48 +298,28 @@ group by dept_name
 order by avg(salary) desc
 limit 1;
  
--- small db
-# dept_name
-'Physics'
- 
--- small db
-# dept_name
-'Physics'
-Find all courses taught in both the Fall 2009 semester and in the Spring-2010 semester.
+-- 30.Find all courses taught in both the Fall 2009 semester and in the Spring-2010 semester.
 
 select course_id from teaches
 where (semester = "Fall" and year = 2009) and (semester = "Spring" and year = 2010);
  
-( select course_id from teaches
-where semester = "Fall" and year = 2009 )
-intersect ( select course_id from teaches
-where semester = "Spring" and year = 2010 );
-Find all students who have taken all the courses offered in the Biology department.
+--31.Find all students who have taken all the courses offered in the Biology department.
 
-with cnt as (
-	select count(course_id) as ct
-    from course 
-    where dept_name = "Biology"
-)
-select ID
-from takes
-where course_id in (
-	select course_id
-    from course
-    where dept_name = "Biology"
-) 
-group by ID
-having count(*) = (
-	select ct from cnt
-);
-Find all courses that were offered at most once in 2009.
+select distinct s.id from student s
+join takes t on t.ID=s.ID
+join course c on c.course_id=t.course_id
+where c.dept_name='Biology';
+
+
+--32.Find all courses that were offered at most once in 2009.
 
 select course_id 
 from takes
 where year = 2009 
 group by course_id
 having count(*) = 1;
-Find all courses that were offered at least twice in 2009.
+
+--33.Find all courses that were offered at least twice in 2009.
 
 select course_id 
 from takes
@@ -409,43 +328,20 @@ group by course_id
 having count(*) > 1;
 
 --34.Find the average instructors’ salaries of those departments where the average salary is greater than $42,000.
+select dept_name,avg(salary)
+from instructor where (select avg(salary)
+from instructor)>42000 
+group by dept_name order by dept_name desc;
 
-select dept_name
-from department D
-where ( select avg(salary) from (
-	select salary
-    from instructor I
-    where D.dept_name = I.dept_name
-) as T ) > 42000;
- 
-select distinct dept_name
-from instructor
-group by dept_name
-having avg(salary) > 42000;
- 
  
 --35.Find the maximum across all departments of the total salary at each department.
 
-select sum(salary)
-from department 
-natural join instructor
-group by dept_name
-order by sum(salary) desc
-limit 1;
- 
-SELECT MAX(total_salary) AS max_total_salary
-FROM (
-    SELECT dept_name, SUM(salary) AS total_salary
-    FROM instructor
-    GROUP BY dept_name
-) AS dept_salaries;
+select dept_name, max(salary) as max_salary 
+from instructor group by dept_name;
  
 
 --36.List all departments along with the number of instructors in each department.
-
-select dept_name, count(ID)
-from department
-natural left join instructor
+select dept_name,count(id) as num_instractor from instructor
 group by dept_name;
  
 --                                 Problem set 3
@@ -490,7 +386,7 @@ natural join course
 where dept_name = "Biology";
  
 
---075Output instructor names sorted by the ratio of their salary to their department’s budget (in ascending order).
+--05.Output instructor names sorted by the ratio of their salary to their department’s budget (in ascending order).
 
 select name
 from instructor
