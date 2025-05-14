@@ -14,7 +14,8 @@ WHERE
  
 
 
---02.Display a list of all instructors, showing each instructor’s ID and the number of sections taught. Make sure to show the number of sections as 0 for instructors who have not taught any section.
+--02.Display a list of all instructors, showing each instructor’s ID 
+--and the number of sections taught. Make sure to show the number of sections as 0 for instructors who have not taught any section.
 
 SELECT 
     I.ID, COUNT(T.ID) as number_of_sections
@@ -24,105 +25,36 @@ FROM
     teaches AS T
 GROUP BY I.ID
 ORDER BY number_of_sections;
- 
-# ID, number_of_sections
-'35579', '0'
-'52647', '0'
-'50885', '0'
-'57180', '0'
-'58558', '0'
-'59795', '0'
-'63395', '0'
-'64871', '0'
-'72553', '0'
-'4034', '0'
-'37687', '0'
-'74426', '0'
-'78699', '0'
-'79653', '0'
-'31955', '0'
-'95030', '0'
-'96895', '0'
-'16807', '0'
-'97302', '0'
-'15347', '1'
-'73623', '1'
-'65931', '1'
-'80759', '1'
-'90376', '1'
-'90643', '1'
-'48570', '1'
-'25946', '1'
-'50330', '1'
-'4233', '1'
-'42782', '1'
-'48507', '1'
-'14365', '2'
-'63287', '2'
-'3335', '2'
-'28400', '2'
-'81991', '2'
-'28097', '2'
-'41930', '3'
-'19368', '3'
-'34175', '3'
-'43779', '4'
-'95709', '4'
-'3199', '4'
-'36897', '5'
-'77346', '6'
-'79081', '6'
-'74420', '6'
-'99052', '9'
-'6569', '10'
-'22591', '13'
-For each student who has retaken a course at least twice (i.e., the student has taken the course at least three times), show the course ID and the student’s ID. Please display your results in order of course ID and do not display duplicate rows.
+--SQL SERVER
+SELECT l.ID, COUNT(T.ID) AS num_of
+FROM instructor AS l
+LEFT JOIN teaches AS T ON l.ID = T.ID
+GROUP BY l.ID
+ORDER BY num_of;
+
+
+
+--03.For each student who has retaken a course at least twice (i.e., the student has taken the course at least three times), 
+--show the course ID and the student’s ID. Please display your results in order of course ID and do not display duplicate rows.
 
 select distinct course_id, ID
 	from takes
     group by ID, course_id having count(*) > 2
     order by course_id;
- 
-# course_id, ID
-'362', '16480'
-'362', '16969'
-'362', '27236'
-'362', '39925'
-'362', '39978'
-'362', '44881'
-'362', '49611'
-'362', '5414'
-'362', '69581'
-'362', '9993'
-Find the names of Biology students who have taken at least 3 Accounting courses.
+  
+--04.Find the names of Biology students who have taken at least 3 Accounting courses.
 
-select name
-from student natural join (
-	select ID from takes
-	where course_id in ( select course_id from course
-		where dept_name = "Accounting")
-		group by ID having count(*) > 2
-    ) as T where dept_name = "Biology";
- 
 SELECT s.name
 FROM student s
 JOIN takes t ON s.ID = t.ID
 JOIN course c ON t.course_id = c.course_id
 WHERE s.dept_name = 'Biology'
 AND c.dept_name = 'Accounting'
-GROUP BY s.ID
+GROUP BY s.ID,s.name
 HAVING COUNT(*) > 2;
+
  
-# name
-'Michael'
-'Dalton'
-'Shoji'
-'Wehen'
-'Uchiyama'
-'Schill'
-'Kaminsky'
-'Giannoulis'
-Find the sections that had maximum enrollment in Fall 2010.
+--05.Find the sections that had maximum enrollment in Fall 2010.
 
 SELECT course_id, sec_id 
 FROM takes
