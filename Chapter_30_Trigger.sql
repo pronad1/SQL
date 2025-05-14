@@ -290,5 +290,11 @@ ORA-04088: error during execution of trigger 'SYSTEM.BOOKSHELF_BEF_DEL' --Here t
 
 SQL>
 
--- Maintaining Duplicated Data 
+-- show applying triggers
+
+SELECT trigger_name, triggering_event, status, description
+FROM user_triggers
+WHERE table_name = 'BOOKSHELF';
+
+
 
