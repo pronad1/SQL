@@ -78,6 +78,12 @@ SQL> create profile limit_profile limit
 
 Profile created.
 
+-- PASSWORD_LIFE_TIME
+alter profile LIMITED_PROFILE limit
+ PASSWORD_LIFE_TIME 10;
+ 
+ alter user jane password expire;
+ User altered.
 
 -- create user
 SQL> create user jane identified by eyre
