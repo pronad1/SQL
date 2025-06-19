@@ -51,6 +51,8 @@ select * from EDGE;
 update EDGE set RATING = 20 where TITLE='SHOWLESS';
 
 
+
+--------------- CHAPTER 18
 -- Project Privilege Management
 show user;
 create user b identified by b;

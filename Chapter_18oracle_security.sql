@@ -27,6 +27,7 @@ SELECT username FROM dba_users;
 
  SELECT DISTINCT profile FROM dba_profiles;
 
+DROP PROFILE profile_name CASCADE;
 
 
 -- show profile attribute ---
